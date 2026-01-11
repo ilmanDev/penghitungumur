@@ -1,214 +1,186 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Age Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penghitung Umur By. Ilman</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 20px;
-        }
-
-        .card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 420px;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            text-align: center;
-            animation: fadeIn 1s ease;
-        }
-
-        .lang {
-            text-align: right;
-            margin-bottom: 10px;
-        }
-
-        select {
-            padding: 6px;
-            border-radius: 6px;
-        }
-
-        .icon {
-            font-size: 50px;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            margin: 5px 0;
-            color: #333;
-        }
-
-        p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .illustration {
-            width: 100%;
-            max-width: 180px;
-            margin: 0 auto 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #5a67d8;
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            animation: slideUp 0.5s ease;
-        }
-
-        footer {
-            margin-top: 20px;
-            color: #fff;
-            font-size: 14px;
-            text-align: center;
-            opacity: 0.9;
-        }
-
-        footer i {
-            color: #ff6b6b;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+<style>
+:root{
+--bg:#fff;--text:#222;--card:#f1f5f9;--primary:#6366f1;
+}
+body.dark{
+--bg:#0f172a;--text:#f8fafc;--card:#1e293b;
+}
+body{
+margin:0;min-height:100vh;
+display:flex;justify-content:center;align-items:center;
+background:var(--bg);color:var(--text);
+font-family:Arial,sans-serif;
+transition:.3s;
+}
+.container{
+background:var(--card);
+padding:25px;border-radius:16px;
+width:100%;max-width:420px;
+box-shadow:0 15px 30px rgba(0,0,0,.3);
+animation:fade .8s ease;
+}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+.top{display:flex;justify-content:space-between;margin-bottom:15px}
+button{
+border:none;border-radius:10px;
+padding:10px 14px;
+background:var(--primary);color:#fff;
+cursor:pointer;transition:.2s;
+}
+button:hover{transform:scale(1.08)}
+h1{text-align:center}
+.author{text-align:center;font-size:14px;opacity:.7;margin-bottom:15px}
+input{
+width:100%;padding:10px;border-radius:8px;
+border:none;margin-bottom:15px
+}
+.result{
+margin-top:20px;
+display:flex;justify-content:space-around;
+font-weight:bold;text-align:center;
+animation:glow .8s ease;
+}
+@keyframes glow{
+0%{box-shadow:0 0 0 transparent}
+50%{box-shadow:0 0 25px var(--primary)}
+100%{box-shadow:0 0 0 transparent}
+}
+.box{
+background:rgba(0,0,0,.1);
+padding:12px;border-radius:12px;
+min-width:90px;
+animation:bounce .6s ease;
+}
+@keyframes bounce{
+0%{transform:scale(.5)}
+60%{transform:scale(1.1)}
+100%{transform:scale(1)}
+}
+.number{
+font-size:26px;color:var(--primary)
+}
+.confetti{
+position:fixed;
+width:10px;height:10px;
+background:var(--primary);
+top:-10px;
+animation:fall 2s linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+</style>
 </head>
 <body>
 
-<div class="card">
-    <div class="lang">
-        <select id="language" onchange="changeLanguage()">
-            <option value="id">🇮🇩 ID</option>
-            <option value="en">🇬🇧 EN</option>
-        </select>
-    </div>
-
-    <div class="icon">
-        <i class="fa-solid fa-cake-candles"></i>
-    </div>
-
-    <img class="illustration" src="https://www.svgrepo.com/show/493624/birthday-cake.svg" alt="Birthday">
-
-    <h1 id="title">Hitung Umur</h1>
-    <p id="subtitle">Masukkan tanggal lahir Anda</p>
-
-    <input type="date" id="birthDate">
-    <button onclick="hitungUmur()" id="btn">Hitung Umur</button>
-
-    <div class="result" id="result"></div>
+<div class="container">
+<div class="top">
+<button onclick="toggleTheme();soundClick()"><i class="fas fa-moon"></i></button>
+<button onclick="changeLang();soundClick()"><i class="fas fa-language"></i></button>
 </div>
 
-<footer>
-    © 2026 <strong>By. Ilman</strong>  
-    <br>
-    Made with <i class="fa-solid fa-heart"></i> & <i class="fa-solid fa-globe"></i>
-</footer>
+<h1 id="title">Penghitung Umur</h1>
+<div class="author">By. Ilman</div>
+
+<label id="lbl">Tanggal Lahir</label>
+<input type="date" id="birth">
+
+<button style="width:100%" onclick="calcAge()">
+<i class="fas fa-calculator"></i> <span id="btn">Hitung Umur</span>
+</button>
+
+<div class="result" id="result" style="display:none">
+<div class="box"><div class="number" id="y">0</div><div id="yt">Tahun</div></div>
+<div class="box"><div class="number" id="m">0</div><div id="mt">Bulan</div></div>
+<div class="box"><div class="number" id="d">0</div><div id="dt">Hari</div></div>
+</div>
+</div>
 
 <script>
-    const text = {
-        id: {
-            title: "Hitung Umur",
-            subtitle: "Masukkan tanggal lahir Anda",
-            button: "Hitung Umur",
-            error: "Silakan pilih tanggal lahir!",
-            result: "Umur Anda"
-        },
-        en: {
-            title: "Age Calculator",
-            subtitle: "Enter your birth date",
-            button: "Calculate Age",
-            error: "Please select your birth date!",
-            result: "Your Age"
-        }
-    };
+/* ===== SOUND ENGINE ===== */
+const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+function beep(freq,dur){
+const osc=audioCtx.createOscillator();
+const gain=audioCtx.createGain();
+osc.frequency.value=freq;
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start();
+gain.gain.exponentialRampToValueAtTime(0.0001,audioCtx.currentTime+dur);
+osc.stop(audioCtx.currentTime+dur);
+}
+function soundClick(){beep(600,.1)}
+function soundResult(){beep(300,.3);setTimeout(()=>beep(500,.2),200)}
 
-    function changeLanguage() {
-        const lang = document.getElementById("language").value;
-        document.getElementById("title").innerText = text[lang].title;
-        document.getElementById("subtitle").innerText = text[lang].subtitle;
-        document.getElementById("btn").innerText = text[lang].button;
-        document.getElementById("result").innerHTML = "";
-    }
+/* ===== LANGUAGE ===== */
+let lang=0;
+const L=[
+{t:"Penghitung Umur",l:"Tanggal Lahir",b:"Hitung Umur",y:"Tahun",m:"Bulan",d:"Hari",dir:"ltr"},
+{t:"Age Calculator",l:"Birth Date",b:"Calculate Age",y:"Years",m:"Months",d:"Days",dir:"ltr"},
+{t:"Calculadora de Edad",l:"Fecha de Nacimiento",b:"Calcular Edad",y:"Años",m:"Meses",d:"Días",dir:"ltr"},
+{t:"حاسبة العمر",l:"تاريخ الميلاد",b:"احسب العمر",y:"سنة",m:"شهر",d:"يوم",dir:"rtl"},
+{t:"年齢計算機",l:"生年月日",b:"年齢を計算",y:"年",m:"月",d:"日",dir:"ltr"}
+];
 
-    function hitungUmur() {
-        const lang = document.getElementById("language").value;
-        const birthDate = new Date(document.getElementById("birthDate").value);
-        const today = new Date();
+function animate(id,val){
+let i=0;
+const el=document.getElementById(id);
+const int=setInterval(()=>{
+el.innerText=i;
+if(i>=val)clearInterval(int);
+i++;
+},25);
+}
 
-        if (isNaN(birthDate)) {
-            document.getElementById("result").innerHTML = text[lang].error;
-            return;
-        }
+/* ===== CONFETTI ===== */
+function confetti(){
+for(let i=0;i<25;i++){
+const c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"vw";
+c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),2000);
+}
+}
 
-        let years = today.getFullYear() - birthDate.getFullYear();
-        let months = today.getMonth() - birthDate.getMonth();
-        let days = today.getDate() - birthDate.getDate();
+function calcAge(){
+soundClick();
+const b=new Date(birth.value);
+if(!b.getTime())return;
+const t=new Date();
+let y=t.getFullYear()-b.getFullYear();
+let m=t.getMonth()-b.getMonth();
+let d=t.getDate()-b.getDate();
+if(d<0){m--;d+=new Date(t.getFullYear(),t.getMonth(),0).getDate()}
+if(m<0){y--;m+=12}
+result.style.display="flex";
+animate("y",y);animate("m",m);animate("d",d);
+soundResult();
+confetti();
+}
 
-        if (days < 0) {
-            months--;
-            days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-        }
-
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
-
-        document.getElementById("result").innerHTML =
-            `${text[lang].result}: <br>${years} Years, ${months} Months, ${days} Days`;
-    }
+function toggleTheme(){document.body.classList.toggle("dark")}
+function changeLang(){
+lang=(lang+1)%L.length;
+title.innerText=L[lang].t;
+lbl.innerText=L[lang].l;
+btn.innerText=L[lang].b;
+yt.innerText=L[lang].y;
+mt.innerText=L[lang].m;
+dt.innerText=L[lang].d;
+document.body.dir=L[lang].dir;
+result.style.display="none";
+}
 </script>
 
 </body>
